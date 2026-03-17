@@ -136,13 +136,6 @@
 
     /* TEAM */
     #team { background: var(--white); }
-    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
-    .team-card { text-align: center; }
-    .team-photo-wrap { width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 1rem; overflow: hidden; border: 3px solid var(--light-blue); background: var(--light-gray); }
-    .team-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .team-photo-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, var(--royal), var(--cyan)); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 2.5rem; font-weight: 900; color: white; }
-    .team-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--dark); text-transform: uppercase; margin-bottom: 4px; }
-    .team-role { font-size: 0.85rem; color: var(--cyan); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* GALLERY */
     #gallery { background: var(--dark); }
@@ -345,7 +338,7 @@
     <h2 class="section-title" style="color:white;font-size:clamp(1.8rem,4vw,3rem);">Join Our Team</h2>
     <div class="join-year">2026 / 2027</div>
     <p class="join-sub">Ready to lead, create, and make a real impact? We're looking for passionate students to join the Net Impact UWindsor executive team for next year.</p>
-    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=szP5EmE9GUuaTWiQId6MyVp-LsSJI2pKqcxpaIQ-KFZUNDdVUTc0RUtZQkcwWDhMSUZSMkdEUzA0Ni4u" target="_blank" class="btn-join">Apply Now →</a>
+    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=szP5EmE9GUuaTWiQId6MyVp-LsSJI2pKqcxpaIQ-KFZUNDdVUTc0RUtZQkcwWDhMSUZSMkdEUzA0Ni4u" target="_blank" class="btn-join">Apply Now</a>
   </div>
 </section>
 
@@ -355,8 +348,8 @@
     <div class="section-label">The People Behind the Mission</div>
     <h2 class="section-title">Meet the Team</h2>
     <p class="section-sub">Our executive team is made up of driven students from the Odette School of Business who believe in the power of ethical leadership.</p>
+    <p style="color:var(--gray);font-size:1rem;margin-top:1.5rem;">Team profiles coming soon — check back later!</p>
   </div>
-  <p style="color:var(--gray);font-size:1rem;margin-top:1.5rem;">Team profiles coming soon — check back later!</p>
 </section>
 
 <!-- GALLERY -->
@@ -406,7 +399,7 @@
       </div>
       <div class="contact-item-text">
         <h4>Email</h4>
-        <a href="/cdn-cgi/l/email-protection#7e131d121b111a4c4c3e0b0917101a0d110c501d1f"><span class="__cf_email__" data-cfemail="234e404f464c4711116356544a4d47504c510d4042">[email&#160;protected]</span></a>
+        <a href="mailto:mcleod22&#64;uwindsor.ca">mcleod22&#64;uwindsor.ca</a>
       </div>
     </div>
 
@@ -416,7 +409,7 @@
       </div>
       <div class="contact-item-text">
         <h4>Instagram</h4>
-        <a href="https://instagram.com/netimpact_odette" target="_blank">@netimpact_odette</a>
+        <a href="https://instagram.com/netimpact_odette" target="_blank">&#64;netimpact_odette</a>
       </div>
     </div>
 
@@ -444,10 +437,10 @@
     <a href="#gallery">Gallery</a>
     <a href="#contact">Contact</a>
   </nav>
-  <div class="footer-copy">© 2026 Net Impact University of Windsor</div>
+  <div class="footer-copy">&#169; 2026 Net Impact University of Windsor</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
   }
@@ -469,4 +462,11 @@
   });
   function goTo(n) {
     current = (n + slides.length) % slides.length;
-    track.style.transform = `translateX(-${current *
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+  function carouselMove(dir) { goTo(current + dir); }
+  setInterval(() => carouselMove(1), 5000);
+</script>
+</body>
+</html>
