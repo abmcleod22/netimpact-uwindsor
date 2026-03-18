@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Net Impact | University of Windsor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --royal: #1A6BBF;
+      --cyan: #00AEEF;
+      --dark: #0a1628;
+      --mid: #112240;
+      --light-blue: #e8f4fd;
+      --white: #ffffff;
+      --gray: #6b7c93;
+      --light-gray: #f4f8fc;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Barlow', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 70px;
+      background: rgba(10, 22, 40, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,174,239,0.2);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 38px; }
+    .nav-logo-text { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); line-height: 1.2; letter-spacing: 0.03em; }
+    .nav-logo-text span { color: var(--cyan); display: block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta { background: var(--cyan); color: var(--dark) !important; padding: 8px 20px; border-radius: 4px; font-weight: 700 !important; }
+    .nav-cta:hover { background: var(--royal) !important; color: var(--white) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: white; }
+    .mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--dark); padding: 1.5rem 5%; z-index: 99; flex-direction: column; gap: 1rem; }
+    .mobile-menu a { color: white; text-decoration: none; font-size: 1.1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .mobile-menu.open { display: flex; }
+
+    /* HERO */
+    #home {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 60%, #0d2a4e 100%);
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 70px 5% 0;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0,174,239,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,174,239,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .orb1 { width: 600px; height: 600px; background: rgba(26,107,191,0.25); top: -100px; right: -100px; }
+    .orb2 { width: 400px; height: 400px; background: rgba(0,174,239,0.15); bottom: -50px; left: 10%; }
+    .hero-content { position: relative; z-index: 2; max-width: 750px; }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(0,174,239,0.15); border: 1px solid rgba(0,174,239,0.4);
+      color: var(--cyan); font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 900; line-height: 0.95;
+      color: var(--white); text-transform: uppercase;
+      letter-spacing: -0.01em; margin-bottom: 1.5rem;
+    }
+    .hero-title .accent { color: var(--cyan); }
+    .hero-sub { font-size: 1.15rem; color: rgba(255,255,255,0.7); max-width: 540px; line-height: 1.7; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--cyan); color: var(--dark); padding: 14px 32px; border-radius: 4px; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; border: 2px solid var(--cyan); }
+    .btn-primary:hover { background: transparent; color: var(--cyan); }
+    .btn-outline { background: transparent; color: var(--white); padding: 14px 32px; border-radius: 4px; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; border: 2px solid rgba(255,255,255,0.4); }
+    .btn-outline:hover { border-color: var(--white); }
+    .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(0,174,239,0.6), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+    /* SHARED */
+    section { padding: 100px 5%; }
+    .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.75rem; }
+    .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; text-transform: uppercase; line-height: 1; color: var(--dark); margin-bottom: 1.25rem; }
+    .section-title.light { color: var(--white); }
+    .section-sub { font-size: 1.05rem; color: var(--gray); max-width: 540px; line-height: 1.7; }
+    .section-sub.light { color: rgba(255,255,255,0.65); }
+
+    /* ABOUT */
+    #about { background: var(--dark); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-visual { position: relative; }
+    .about-big-num { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(8rem, 18vw, 14rem); font-weight: 900; color: rgba(0,174,239,0.08); line-height: 1; position: absolute; top: -2rem; left: -2rem; pointer-events: none; user-select: none; }
+    .about-card { background: var(--mid); border: 1px solid rgba(0,174,239,0.2); border-radius: 12px; padding: 2.5rem; position: relative; z-index: 1; }
+    .about-card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .about-card h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--white); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .about-card p { color: rgba(255,255,255,0.65); line-height: 1.7; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    .stat-box { background: rgba(0,174,239,0.08); border: 1px solid rgba(0,174,239,0.2); border-radius: 8px; padding: 1.25rem; text-align: center; }
+    .stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 2.2rem; font-weight: 900; color: var(--cyan); line-height: 1; }
+    .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 4px; letter-spacing: 0.05em; }
+
+    /* EVENTS */
+    #events { background: var(--light-gray); }
+    .events-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+    .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .event-card { background: var(--white); border-radius: 10px; border: 1px solid #e0eaf4; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+    .event-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,107,191,0.12); }
+    .event-card-top { background: linear-gradient(135deg, var(--royal), var(--cyan)); padding: 1.5rem; position: relative; overflow: hidden; }
+    .event-card-top::after { content: ''; position: absolute; right: -20px; top: -20px; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+    .event-date-badge { display: inline-block; background: rgba(255,255,255,0.2); color: white; font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .event-card-top h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.4rem; font-weight: 700; color: white; text-transform: uppercase; }
+    .event-card-body { padding: 1.5rem; }
+    .event-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+    .event-meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--gray); }
+    .event-meta-item svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--royal); }
+    .event-desc { font-size: 0.92rem; color: var(--gray); line-height: 1.65; margin-bottom: 1.25rem; }
+    .btn-event { display: inline-block; background: var(--royal); color: white; padding: 10px 22px; border-radius: 4px; font-weight: 600; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+    .btn-event:hover { background: var(--cyan); }
+
+    /* JOIN */
+    #join { background: linear-gradient(135deg, var(--royal) 0%, #0d3a7a 50%, var(--dark) 100%); text-align: center; position: relative; overflow: hidden; }
+    #join::before { content: 'JOIN'; position: absolute; font-family: 'Barlow Condensed', sans-serif; font-size: clamp(10rem, 25vw, 20rem); font-weight: 900; color: rgba(255,255,255,0.04); top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; }
+    .join-year { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(4rem, 12vw, 9rem); font-weight: 900; color: var(--cyan); line-height: 1; margin: 0.25rem 0 1rem; text-shadow: 0 0 60px rgba(0,174,239,0.4); }
+    .join-sub { color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .btn-join { display: inline-block; background: var(--cyan); color: var(--dark); padding: 18px 48px; border-radius: 4px; font-family: 'Barlow Condensed', sans-serif; font-size: 1.3rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.25s; border: 2px solid var(--cyan); position: relative; z-index: 2; }
+    .btn-join:hover { background: transparent; color: var(--cyan); }
+
+    /* TEAM */
+    #team { background: var(--white); }
+
+    /* GALLERY */
+    #gallery { background: var(--dark); }
+    .gallery-section-head { margin-bottom: 3rem; }
+    .carousel-container { position: relative; overflow: hidden; border-radius: 12px; }
+    .carousel-track { display: flex; transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+    .carousel-slide { min-width: 100%; height: 500px; background: var(--mid); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .carousel-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, var(--mid), #0d2a4e); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: rgba(255,255,255,0.3); }
+    .carousel-placeholder svg { width: 60px; height: 60px; opacity: 0.4; }
+    .carousel-placeholder p { font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(10,22,40,0.7); border: 1px solid rgba(0,174,239,0.4); color: white; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 5; font-size: 1.2rem; }
+    .carousel-btn:hover { background: var(--royal); border-color: var(--royal); }
+    .carousel-prev { left: 1rem; }
+    .carousel-next { right: 1rem; }
+    .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.5rem; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); cursor: pointer; transition: all 0.2s; }
+    .dot.active { background: var(--cyan); width: 24px; border-radius: 4px; }
+    .gallery-hint { text-align: center; margin-top: 1.5rem; color: rgba(255,255,255,0.35); font-size: 0.85rem; font-style: italic; }
+
+    /* CONTACT */
+    #contact { background: var(--light-gray); }
+    .contact-item { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 2rem; }
+    .contact-icon { width: 48px; height: 48px; border-radius: 10px; background: linear-gradient(135deg, var(--royal), var(--cyan)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .contact-icon svg { width: 22px; height: 22px; color: white; }
+    .contact-item-text h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dark); margin-bottom: 4px; }
+    .contact-item-text a, .contact-item-text p { color: var(--gray); font-size: 0.95rem; text-decoration: none; }
+    .contact-item-text a:hover { color: var(--royal); }
+
+    /* FOOTER */
+    footer { background: var(--dark); padding: 3rem 5%; border-top: 1px solid rgba(0,174,239,0.15); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.45); font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-copy { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+
+
+
+    /* ANIMATIONS */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      #about { grid-template-columns: 1fr; }
+      .about-visual { display: none; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .carousel-slide { height: 280px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <img src="Net Impact Logo.png" alt="Net Impact Logo"/>
+    <div class="nav-logo-text">
+      Net Impact
+      <span>University of Windsor</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#join" class="nav-cta">Join Us</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#events" onclick="toggleMenu()">Events</a>
+  <a href="#team" onclick="toggleMenu()">Team</a>
+  <a href="#gallery" onclick="toggleMenu()">Gallery</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="#join" onclick="toggleMenu()">Join Us</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">University of Windsor · Odette School of Business</div>
+    <div style="display:flex; align-items:center; gap:2rem; margin-bottom:1.5rem;">
+      <img src="Net Impact Circle.png" alt="Net Impact" style="height:180px; width:180px; object-fit:contain; flex-shrink:0;"/>
+      <h1 class="hero-title" style="margin-bottom:0;">
+        Profit<br>
+        with <span class="accent">Purpose.</span>
+      </h1>
+    </div>
+    <p class="hero-sub">
+      Bridging the gap between social impact and business. We believe you can be ethical, responsible, and purposeful — and still build something remarkable.
+    </p>
+    <div class="hero-btns">
+      <a href="#events" class="btn-primary">Upcoming Events</a>
+      <a href="#join" class="btn-outline">Join the Team</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text fade-up">
+    <div class="section-label">Our Mission</div>
+    <h2 class="section-title light">Profit &amp; <span style="color:var(--cyan)">Purpose</span><br>Aren't Opposites.</h2>
+    <p class="section-sub light" style="margin-bottom:2rem;">
+      Net Impact UWindsor is a student-led community at the Odette School of Business dedicated to developing the next generation of leaders who drive positive change — in their organizations, their communities, and the world.
+    </p>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">300+</div>
+        <div class="stat-label">Net Impact Chapters Worldwide</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Student-led &amp; driven</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual">
+    <div class="about-big-num">NI</div>
+    <div class="about-card fade-up" style="transition-delay:0.15s">
+      <div class="about-card-icon">🌍</div>
+      <h3>Social Impact Meets Business</h3>
+      <p>We connect students passionate about sustainability, equity, and ethical leadership with real-world opportunities to make change happen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="events-header fade-up">
+    <div>
+      <div class="section-label">What's Coming Up</div>
+      <h2 class="section-title">Upcoming Events</h2>
+    </div>
+  </div>
+  <div class="events-grid">
+
+    <div class="event-card fade-up">
+      <div class="event-card-top">
+        <div class="event-date-badge">March 26, 2026</div>
+        <h3>Social Impact Career Panel</h3>
+      </div>
+      <div class="event-card-body">
+        <div class="event-meta">
+          <div class="event-meta-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            6:30 PM – 7:30 PM
+          </div>
+          <div class="event-meta-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+            Odette School of Business, Room 321
+          </div>
+        </div>
+        <p class="event-desc">Hear from social impact professionals about their perspectives on leading impact-driven careers.</p>
+        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=szP5EmE9GUuaTWiQId6MyVp-LsSJI2pKqcxpaIQ-KFZUODZPQjBIRlYyVkdCSVRSOUQ3M0Y4SUVFRy4u" target="_blank" class="btn-event">Register Now</a>
+      </div>
+    </div>
+
+    <div class="event-card fade-up" style="transition-delay:0.1s">
+      <div class="event-card-top">
+        <div class="event-date-badge">April 11, 2026</div>
+        <h3>ERCA Little River Cleanup</h3>
+      </div>
+      <div class="event-card-body">
+        <div class="event-meta">
+          <div class="event-meta-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            10:00 AM – 11:00 AM
+          </div>
+          <div class="event-meta-item">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+            Teedie Crescent, Windsor, ON
+          </div>
+        </div>
+        <p class="event-desc">Join Net Impact and the community to clean up our waters.</p>
+        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=szP5EmE9GUuaTWiQId6MyVp-LsSJI2pKqcxpaIQ-KFZUN1QzRDZFWExXNE04WkkxSFkyTkJCWlMwWS4u" target="_blank" class="btn-event">Register Now</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- JOIN BANNER -->
+<section id="join">
+  <div style="position:relative;z-index:2;text-align:center;">
+    <div class="section-label" style="display:block;">Applications Open</div>
+    <h2 class="section-title" style="color:white;font-size:clamp(1.8rem,4vw,3rem);">Join Our Team</h2>
+    <div class="join-year">2026 / 2027</div>
+    <p class="join-sub">Ready to lead, create, and make a real impact? We're looking for passionate students to join the Net Impact UWindsor executive team for next year.</p>
+    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=szP5EmE9GUuaTWiQId6MyVp-LsSJI2pKqcxpaIQ-KFZUNDdVUTc0RUtZQkcwWDhMSUZSMkdEUzA0Ni4u" target="_blank" class="btn-join">Apply Now</a>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="fade-up">
+    <div class="section-label">The People Behind the Mission</div>
+    <h2 class="section-title">Meet the Team</h2>
+    <p class="section-sub">Our executive team is made up of driven students from the Odette School of Business who believe in the power of ethical leadership.</p>
+    <p style="color:var(--gray);font-size:1rem;margin-top:1.5rem;">Team profiles coming soon — check back later!</p>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-section-head fade-up">
+    <div class="section-label">Moments That Matter</div>
+    <h2 class="section-title light">Year in Review</h2>
+  </div>
+  <div class="carousel-container fade-up">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide"><img src="CNOY.jpg" alt="CNOY Event"/></div>
+      <div class="carousel-slide"><img src="Casino.jpg" alt="Casino Event"/></div>
+      <div class="carousel-slide"><img src="Gala-CNOY.jpg" alt="Gala CNOY"/></div>
+      <div class="carousel-slide"><img src="Orientation.jpg" alt="Orientation"/></div>
+      <div class="carousel-slide"><img src="Soccer1.jpg" alt="Soccer Event"/></div>
+      <div class="carousel-slide"><img src="Soccer2.jpg" alt="Soccer Event"/></div>
+      <div class="carousel-slide"><img src="Soccer3.jpg" alt="Soccer Event"/></div>
+    </div>
+    <button class="carousel-btn carousel-prev" onclick="carouselMove(-1)">&#8592;</button>
+    <button class="carousel-btn carousel-next" onclick="carouselMove(1)">&#8594;</button>
+  </div>
+  <div class="carousel-dots" id="carouselDots"></div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-up">
+    <div class="section-label">Reach Out</div>
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="section-sub" style="margin-bottom:2.5rem;">Have a question, partnership idea, or just want to learn more? We'd love to hear from you.</p>
+
+    <div class="contact-item">
+      <div class="contact-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      </div>
+      <div class="contact-item-text">
+        <h4>Email</h4>
+        <a href="/cdn-cgi/l/email-protection#2f424c434a404b1d1d090c191b145a5846414b5c405d014c4e">mcleod22&#64;uwindsor.ca</a>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </div>
+      <div class="contact-item-text">
+        <h4>Instagram</h4>
+        <a href="https://instagram.com/netimpact_odette" target="_blank">&#64;netimpact_odette</a>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+      </div>
+      <div class="contact-item-text">
+        <h4>Location</h4>
+        <p>Odette School of Business<br>University of Windsor, Windsor, ON</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">&#169; 2026 Net Impact University of Windsor</div>
+  <nav class="footer-links">
+    <a href="#about">About</a>
+    <a href="#events">Events</a>
+    <a href="#team">Team</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // Animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Carousel
+  let current = 0;
+  const track = document.getElementById('carouselTrack');
+  const slides = track.querySelectorAll('.carousel-slide');
+  const dotsContainer = document.getElementById('carouselDots');
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsContainer.appendChild(dot);
+  });
+  function goTo(n) {
+    current = (n + slides.length) % slides.length;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+  function carouselMove(dir) { goTo(current + dir); }
+  setInterval(() => carouselMove(1), 5000);
+</script>
+</body>
+</html>
